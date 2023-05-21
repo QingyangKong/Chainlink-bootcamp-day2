@@ -4,6 +4,7 @@ pragma solidity ^0.8.7;
 import {Functions, FunctionsClient} from "./dev/functions/FunctionsClient.sol";
 // import "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol"; // Once published
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
+import "./NFTDogs.sol";
 
 /**
  * @title Functions Consumer contract
@@ -16,6 +17,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
   bytes32 public latestRequestId;
   bytes public latestResponse;
   bytes public latestError;
+  NFTDogs public nft;
 
   event OCRResponse(bytes32 indexed requestId, bytes result, bytes err);
 
@@ -27,6 +29,10 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
   // https://github.com/protofire/solhint/issues/242
   // solhint-disable-next-line no-empty-blocks
   constructor(address oracle) FunctionsClient(oracle) ConfirmedOwner(msg.sender) {}
+
+  function setNFtAddress(address _nft) public onlyOwner {
+    nft = NFTDogs(_nft);
+  }
 
   /**
    * @notice Send a simple request
@@ -69,6 +75,9 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     latestResponse = response;
     latestError = err;
     emit OCRResponse(requestId, response, err);
+
+    //input the temperature into the dynamic nft contract
+    nft.updateMetadata(uint256(bytes32(response)));
   }
 
   /**
