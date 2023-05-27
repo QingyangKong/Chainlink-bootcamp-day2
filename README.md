@@ -9,6 +9,8 @@ The NFT smart contract is different from day 1. Redploy the NFT smart contract a
 - Go to remix and deploy the contracts `NFTDogs.sol` and `VRFv2Consumer.sol` which is saved in the `/contracts` in this repo. 
 - Add consumer in vrf subscription and mint an NFT like what we did in day 1. 
 - Clone the repository using command `git clone https://github.com/QingyangKong/Chainlink-bootcamp-day2.git`
+- Fetch all branches `cd Chainlink-bootcamp-day2` and `git fetch --all`
+- Switch to this branch `git checkout advanced`
 - Head to directory in your environment
 - Install all depedencies using command `npm install`
 - Set environment variable for
